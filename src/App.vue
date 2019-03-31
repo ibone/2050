@@ -65,8 +65,8 @@ export default {
     return {
       downloadSrc: '',
       url: null,
-      posterId: '12312',
-      targetUrl: 'https://baidu.com',
+      posterId: '',
+      targetUrl: '',
       userData: null
     }
   },
