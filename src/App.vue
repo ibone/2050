@@ -6,7 +6,7 @@
     </div>
     <div :class="$style.formItem">
       <div :class="$style.label">目标链接</div>
-      <div :class="$style.input"><input type="text" placeholder="http://example.com/path?foo=bar" v-model="targetUrl"/></div>
+      <div :class="$style.input"><input type="text" placeholder="https://2050.org.cn" v-model="targetUrl"/></div>
     </div>
     <!-- <div :class="$style.formItem">
       <div :class="$style.label">你的名字</div>
