@@ -5,7 +5,7 @@ const md5 = require('md5')
 const app = express()
 const port = 3000
 
-let key = process.argv[2] || ''
+const key = process.argv[2] || ''
 console.log(key)
 
 const url1 = 'https://t.brdian.cn/Analysis/getData/2050?posterId=$1&time=$2&auth=$3'
@@ -14,7 +14,7 @@ const url2 = 'https://pass.2050.org.cn/Analysis/getData/2050?posterId=$1&time=$2
 function replaceUrl (posterId) {
   const time = (new Date()).getTime()
 
-  const url = url1.replace('$1', posterId).replace('$2', time).replace('$3', md5(`${posterId}${time}${key}`))
+  const url = url2.replace('$1', posterId).replace('$2', time).replace('$3', md5(`${posterId}${time}${key}`))
   console.log(url)
   return url
 }

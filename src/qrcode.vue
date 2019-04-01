@@ -1,7 +1,7 @@
 <template>
   <div :class="$style.qrcode" :style="style">
     <img v-if="href" :src="href" :width="size" :height="size + 20">
-    <img :class="$style.logo" src="./2050.png" ref="logo"/>
+    <img width="100" height="100" :class="$style.logo" src="./2050.png" ref="logo"/>
   </div>
 </template>
 
@@ -72,11 +72,6 @@ export default {
       this.update()
     }
   },
-  data () {
-    return {
-      href: ''
-    }
-  },
   mounted () {
     setTimeout(() => {
       this.update()
@@ -95,13 +90,13 @@ export default {
       var cells = qrcode.modules
       var tileW = size / cells.length
       var tileH = size / cells.length
-      var scale = (window.devicePixelRatio || 1) / getBackingStorePixelRatio(ctx)
+      // var scale = (window.devicePixelRatio || 1) / getBackingStorePixelRatio(ctx)
 
-      canvas.width = size * scale
-      canvas.height = (size + 20) * scale
+      canvas.width = size
+      canvas.height = (size + 20)
       ctx.fillStyle = '#ffffff'
       ctx.fillRect(0, 0, size, size + 20)
-      ctx.scale(scale, scale)
+      // ctx.scale(scale, scale)
 
       cells.forEach(function (row, rdx) {
         row.forEach(function (cell, cdx) {
@@ -117,7 +112,7 @@ export default {
       ctx.fillText(this.posterid, 130, size + 18)
 
       var img = this.$refs.logo
-      var imgSize = 80
+      var imgSize = 60
       ctx.drawImage(img, (size - imgSize) / 2, (size - imgSize) / 2, imgSize, imgSize)
 
       var canvas2 = document.createElement('canvas')

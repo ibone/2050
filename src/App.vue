@@ -130,6 +130,7 @@ body
   font-family 'Avenir', Helvetica, Arial, sans-serif
   -webkit-font-smoothing antialiased
   line-height 1.5
+  min-width 800px
   background url("https://static.yunqi2050.com/2019/02/ganxiexin1-1.jpg") no-repeat center top
 
 .title
