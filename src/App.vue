@@ -21,7 +21,11 @@
     <div :class="$style.data">
       <div :class="$style.hd">
         <div :class="$style.tit">我的数据</div>
-        <div :class="$style.btn" @click="getData">点击查看</div>
+      </div>
+      <div :class="$style.posterIdInput">
+        <div :class="$style.label">请输入二维码上的id：</div>
+        <div :class="$style.input"><input type="text" v-model="posterId"/></div>
+        <div :class="$style.btn" @click="getData">查询</div>
       </div>
       <div :class="$style.bd" v-if="userData">
         <div :class="$style.item">
@@ -51,13 +55,13 @@ import Axios from 'axios'
 import MD5 from 'md5'
 const url = 'http://pass.2050.org.cn/s/2050?posterId=$1&url=$2'
 
-function getQueryString (link, key) {
-  const reg = new RegExp('(^|&)' + key + '=([^&]*)(&|$)', 'i')
-  const queryString = link.split('?').length > 1 ? link.split('?')[1] : ''
-  const r = queryString.match(reg)
-  if (r !== null) return decodeURIComponent(r[2])
-  return ''
-}
+// function getQueryString (link, key) {
+//   const reg = new RegExp('(^|&)' + key + '=([^&]*)(&|$)', 'i')
+//   const queryString = link.split('?').length > 1 ? link.split('?')[1] : ''
+//   const r = queryString.match(reg)
+//   if (r !== null) return decodeURIComponent(r[2])
+//   return ''
+// }
 
 export default {
   name: 'app',
@@ -74,11 +78,14 @@ export default {
   methods: {
     genarateQrcode () {
       // const posterId = String(this.posterId).trim()
-      const targetUrl = String(this.targetUrl).trim()
+      let targetUrl = String(this.targetUrl).trim()
       // if (!/^[\da-z]+$/i.test(posterId)) {
       //   window.alert('名字仅允许由英文字母和数字组成')
       //   return
       // }
+      if (targetUrl === '') {
+        targetUrl = 'https://2050.org.cn'
+      }
       if (!/^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/i.test(targetUrl)) {
         window.alert('链接不符合规则')
         return
@@ -96,16 +103,15 @@ export default {
     },
     getData () {
       this.userData = null
-      const posterId = getQueryString(window.location.href, 'posterid')
-      if (!(typeof posterId === 'string' && posterId.length > 0)) {
-        window.alert('未找到posterId')
+      if (!(typeof this.posterId === 'string' && this.posterId.length > 0)) {
+        window.alert('请出入二维码上的id')
         return
       }
-      Axios.get(`/request?posterid=${posterId}`).then(response => {
+      Axios.get(`/request?posterid=${this.posterId}`).then(response => {
         const res = response.data
         if (res.return_code === 'SUCCESS') {
           this.userData = res.data
-          this.userData.posterId = posterId
+          this.userData.posterId = this.posterId
         }
       }, response => {
         window.alert('请求出错')
@@ -206,7 +212,7 @@ body
 
 .qrcode
   border 1px solid #eee
-  height 360px
+  height 380px
   width 360px
   border-radius 5px
   display flex
@@ -281,4 +287,42 @@ body
         align-items center
         height 50px
         display flex
+
+.posterIdInput
+  display flex
+  align-items center
+  width 500px
+  margin-top 8px
+  .label
+    font-size 14px
+    font-weight 300
+  .input
+    flex 0 0 auto
+    padding-left 6px
+    margin-left 10px
+    display flex
+    align-items center
+    height 24px
+    border 1px solid #eee
+    border-radius 3px
+    input
+      flex 1 1 auto
+      border 0
+      height 20px
+      line-height 20px
+      font-size 16px
+      color #444
+      outline none
+  .btn
+    width 60px
+    height 26px
+    display flex
+    justify-content center
+    align-items center
+    font-size 14px
+    background #0189ff
+    color #fff
+    cursor pointer
+    border-radius 3px
+    margin-left 10px
 </style>

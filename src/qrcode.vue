@@ -1,6 +1,6 @@
 <template>
   <div :class="$style.qrcode" :style="style">
-    <img :src="href" :width="size" :height="size + 20">
+    <img v-if="href" :src="href" :width="size" :height="size + 20">
     <img :class="$style.logo" src="./2050.png" ref="logo"/>
   </div>
 </template>
@@ -50,6 +50,11 @@ export default {
       }
     }
   },
+  data () {
+    return {
+      href: null
+    }
+  },
   watch: {
     size: function () {
       this.update()
@@ -73,7 +78,9 @@ export default {
     }
   },
   mounted () {
-    this.update()
+    setTimeout(() => {
+      this.update()
+    }, 100)
   },
   methods: {
     update () {
