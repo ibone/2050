@@ -8,14 +8,14 @@
       <div :class="$style.label">目标链接</div>
       <div :class="$style.input"><input type="text" placeholder="http://example.com/path?foo=bar" v-model="targetUrl"/></div>
     </div>
-    <div :class="$style.formItem">
+    <!-- <div :class="$style.formItem">
       <div :class="$style.label">你的名字</div>
       <div :class="$style.input"><input type="text" v-model="posterId"/></div>
       <span>* 仅允许英文字母和数字</span>
-    </div>
+    </div> -->
     <div :class="$style.qrcodeBtn" @click="genarateQrcode">生成一个独一无二的二维码</div>
     <div :class="$style.qrcode">
-      <Qrcode v-if="url" :size="320" :val="url" v-model="downloadSrc"></Qrcode>
+      <Qrcode v-if="url" :size="320" :val="url" :posterid="posterId" v-model="downloadSrc"></Qrcode>
       <div :class="$style.download" v-if="url" @click="download">下载二维码</div>
     </div>
     <div :class="$style.data">
@@ -48,7 +48,8 @@
 <script>
 import Qrcode from './qrcode.vue'
 import Axios from 'axios'
-const url = 'http://pass.2050.org.cn/s/2050?posterId=$2&url=$1'
+import MD5 from 'md5'
+const url = 'http://pass.2050.org.cn/s/2050?posterId=$1&url=$2'
 
 function getQueryString (link, key) {
   const reg = new RegExp('(^|&)' + key + '=([^&]*)(&|$)', 'i')
@@ -72,17 +73,18 @@ export default {
   },
   methods: {
     genarateQrcode () {
-      const posterId = String(this.posterId).trim()
+      // const posterId = String(this.posterId).trim()
       const targetUrl = String(this.targetUrl).trim()
-      if (!/^[\da-z]+$/i.test(posterId)) {
-        window.alert('名字仅允许由英文字母和数字组成')
-        return
-      }
+      // if (!/^[\da-z]+$/i.test(posterId)) {
+      //   window.alert('名字仅允许由英文字母和数字组成')
+      //   return
+      // }
       if (!/^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,6}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/i.test(targetUrl)) {
         window.alert('链接不符合规则')
         return
       }
-      this.url = url.replace('$1', posterId).replace('$2', targetUrl)
+      this.posterId = MD5(targetUrl + (new Date().getTime())).substring(0, 6)
+      this.url = url.replace('$1', this.posterId).replace('$2', targetUrl)
     },
     download () {
       var link = document.createElement('a')

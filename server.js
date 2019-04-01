@@ -56,10 +56,10 @@ app.use('*', function (req, res, next) {
   })
 })
 
-app.listen(8888, function (err) {
+app.listen(8889, function (err) {
   if (err) {
     console.log(err)
     return
   }
-  console.log('Listening at http://localhost:8888')
+  console.log('Listening at http://localhost:8889')
 })
