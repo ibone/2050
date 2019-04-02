@@ -2,11 +2,12 @@
   <div :class="$style.main">
     <div :class="$style.title">
       <div :class="$style.logo"></div>
-      <div>每一张海报有独一无二的二维码</div>
+      <div>用独一无二的二维码了解你召集来多少伙伴</div>
     </div>
     <div :class="$style.formItem">
       <div :class="$style.label">目标链接</div>
       <div :class="$style.input"><input type="text" placeholder="https://2050.org.cn" v-model="targetUrl"/></div>
+      <span>* 您可以指定2050网站任意页面为目标链接，并将生成的二维码用于海报、公众号文章宣传。通过二维码底部的代号可查询扫码、购买PASS的数量。</span>
     </div>
     <!-- <div :class="$style.formItem">
       <div :class="$style.label">你的名字</div>
@@ -23,26 +24,26 @@
         <div :class="$style.tit">我的数据</div>
       </div>
       <div :class="$style.posterIdInput">
-        <div :class="$style.label">请输入二维码上的id：</div>
+        <div :class="$style.label">请输入二维码底部的代号（六位字母或数字）：</div>
         <div :class="$style.input"><input type="text" v-model="posterId"/></div>
         <div :class="$style.btn" @click="getData">查询</div>
       </div>
       <div :class="$style.bd" v-if="userData">
         <div :class="$style.item">
-          <div :class="$style.label">PosterId</div>
+          <div :class="$style.label">二维码代号</div>
           <div :class="$style.val">{{userData.posterId}}</div>
         </div>
         <div :class="$style.item">
-          <div :class="$style.label">scan_PV</div>
+          <div :class="$style.label">被扫描次数</div>
           <div :class="$style.val">{{userData.scan_PV}}</div>
         </div>
         <div :class="$style.item">
-          <div :class="$style.label">scan_UV</div>
+          <div :class="$style.label">被扫描人数</div>
           <div :class="$style.val">{{userData.scan_UV}}</div>
         </div>
         <div :class="$style.item">
-          <div :class="$style.label">order</div>
-          <div :class="$style.val">paid: {{userData.order.paid}}, unpaid: {{userData.order.unpaid}}, closed: {{userData.order.closed}}</div>
+          <div :class="$style.label">Pass 数量</div>
+          <div :class="$style.val">已付费: {{userData.order.paid}}, 未付费: {{userData.order.unpaid}}</div>
         </div>
       </div>
     </div>
@@ -96,7 +97,7 @@ export default {
     download () {
       var link = document.createElement('a')
       link.href = this.downloadSrc
-      link.download = '2050qrcode.jpg'
+      link.download = `${this.posterId}.jpg`
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
@@ -153,7 +154,7 @@ body
   display flex
   margin 0 auto
   align-items center
-  width 500px
+  width 600px
   margin-top 28px
   background #fff
   border 1px solid #eee
@@ -163,9 +164,12 @@ body
     font-size 14px 
     color #999
     position absolute
-    bottom -30px
+    bottom -50px
     left 0
     width 100%
+    box-sizing border-box
+    padding-left 20px
+    padding-right 20px
     text-align center
   .label
     font-size 18px
@@ -204,7 +208,7 @@ body
   height 70px
   border-radius 40px
   font-weight 700
-  margin-top 100px
+  margin-top 120px
   cursor pointer
   transition all .3s ease
   &:hover
@@ -215,6 +219,7 @@ body
   border 1px solid #eee
   height 380px
   width 360px
+  padding-bottom 40px
   border-radius 5px
   display flex
   align-items center
@@ -234,9 +239,9 @@ body
 .download
   position absolute
   z-index 3
-  bottom 10px
-  right 10px
-  width 100px
+  bottom 20px
+  left 20px
+  width 320px
   height 24px
   display flex
   justify-content center
@@ -292,7 +297,7 @@ body
 .posterIdInput
   display flex
   align-items center
-  width 500px
+  width 800px
   margin-top 8px
   .label
     font-size 14px

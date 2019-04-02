@@ -109,7 +109,7 @@ export default {
 
       ctx.fillStyle = '#666666'
       ctx.font = '14px Helvetica Neue, PingFang SC, Verdana, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans-serif'
-      ctx.fillText(this.posterid, 130, size + 18)
+      ctx.fillText(this.posterid, 138, size + 18)
 
       var img = this.$refs.logo
       var imgSize = 60
