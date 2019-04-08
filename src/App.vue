@@ -92,7 +92,7 @@ export default {
         return
       }
       this.posterId = MD5(targetUrl + (new Date().getTime())).substring(0, 6)
-      this.url = url.replace('$1', this.posterId).replace('$2', targetUrl)
+      this.url = url.replace('$1', this.posterId).replace('$2', encodeURIComponent(targetUrl))
     },
     download () {
       var link = document.createElement('a')
