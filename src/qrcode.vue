@@ -31,7 +31,7 @@ export default {
     // 'L', 'M', 'Q', 'H'
     level: {
       type: String,
-      default: 'L'
+      default: 'Q'
     },
     bgColor: {
       type: String,
@@ -88,14 +88,15 @@ export default {
 
       var ctx = canvas.getContext('2d')
       var cells = qrcode.modules
-      var tileW = size / cells.length
-      var tileH = size / cells.length
-      // var scale = (window.devicePixelRatio || 1) / getBackingStorePixelRatio(ctx)
+      var scale = 1000 / size
+      var tileW = size / cells.length * scale
+      var tileH = size / cells.length * scale
 
-      canvas.width = size
-      canvas.height = (size + 20)
+      canvas.width = size * scale
+      canvas.height = (size + 20) * scale
+
       ctx.fillStyle = '#ffffff'
-      ctx.fillRect(0, 0, size, size + 20)
+      ctx.fillRect(0, 0, canvas.width, canvas.height)
       // ctx.scale(scale, scale)
 
       cells.forEach(function (row, rdx) {
@@ -108,12 +109,12 @@ export default {
       })
 
       ctx.fillStyle = '#666666'
-      ctx.font = '14px Helvetica Neue, PingFang SC, Verdana, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans-serif'
-      ctx.fillText(this.posterid, 138, size + 18)
+      ctx.font = `${14 * scale}px Helvetica Neue, PingFang SC, Verdana, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans-serif`
+      ctx.fillText(this.posterid, 138 * scale, (size + 18) * scale)
 
       var img = this.$refs.logo
       var imgSize = 60
-      ctx.drawImage(img, (size - imgSize) / 2, (size - imgSize) / 2, imgSize, imgSize)
+      ctx.drawImage(img, (size - imgSize) / 2 * scale, (size - imgSize) / 2 * scale, imgSize * scale, imgSize * scale)
 
       var canvas2 = document.createElement('canvas')
       var ctx2 = canvas2.getContext('2d')
@@ -124,7 +125,7 @@ export default {
       ctx2.fillStyle = '#666666'
       ctx2.font = '14px Helvetica Neue, PingFang SC, Verdana, Microsoft Yahei, Hiragino Sans GB, Microsoft Sans Serif, WenQuanYi Micro Hei, sans-serif'
       ctx2.fillText(this.posterid, 10, 50)
-      this.href = canvas.toDataURL('image/jpeg')
+      this.href = canvas.toDataURL('image/png')
       this.$emit('input', this.href)
     }
   }

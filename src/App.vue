@@ -97,7 +97,7 @@ export default {
     download () {
       var link = document.createElement('a')
       link.href = this.downloadSrc
-      link.download = `${this.posterId}.jpg`
+      link.download = `${this.posterId}.png`
       document.body.appendChild(link)
       link.click()
       document.body.removeChild(link)
