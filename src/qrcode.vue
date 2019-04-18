@@ -86,11 +86,13 @@ export default {
 
       var qrcode = qr(this.val, { errorCorrectLevel: 1 })
 
+      var padding = 12
+
       var ctx = canvas.getContext('2d')
       var cells = qrcode.modules
       var scale = 1000 / size
-      var tileW = size / cells.length * scale
-      var tileH = size / cells.length * scale
+      var tileW = (size - padding * 2) / cells.length * scale
+      var tileH = (size - padding * 2) / cells.length * scale
 
       canvas.width = size * scale
       canvas.height = (size + 20) * scale
@@ -104,7 +106,7 @@ export default {
           ctx.fillStyle = cell ? fgColor : bgColor
           var w = (Math.ceil((cdx + 1) * tileW) - Math.floor(cdx * tileW))
           var h = (Math.ceil((rdx + 1) * tileH) - Math.floor(rdx * tileH))
-          ctx.fillRect(Math.round(cdx * tileW), Math.round(rdx * tileH), w, h)
+          ctx.fillRect(Math.round(cdx * tileW) + padding * scale, Math.round(rdx * tileH) + padding * scale, w, h)
         })
       })
 
